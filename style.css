@@ -1,0 +1,132 @@
+*{
+	padding: 0;
+	margin: 0;
+	font-family: 'Times New Roman';
+	box-sizing: border-box;
+}
+
+body
+{
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	background: rgb(69, 171, 255);
+}
+
+.header
+{
+	position: relative;
+	width: 100%;
+	height: 50px;
+}
+
+.container
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	/* border: 2px solid orange; */
+}
+
+.container .tasks
+{
+	position: relative;
+	margin-left: 20px;
+	width: 25%;
+	/* border: 2px solid hotpink; */
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+.container .tasks h3
+{
+	/*position: absolute;*/
+	color: #fff;
+	transition: 0.5s;
+	/* border: 1px solid magenta; */
+}
+
+.container .tasks .todo-list
+{
+	/*position: relative;*/
+	/* border: 1px solid rgba(255, 10, 10, 1); */
+	margin-top: 10px;
+	margin-left: 30px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.container .tasks .todo-list .todo-list-item
+{
+	list-style: none;
+	color: #eee;
+	font-size: 17px;
+	transition: 0.2s;
+}
+
+.container .tasks .todo-list .todo-list-item .del_icon
+{
+	margin-left: 10px;
+}
+.container .tasks .todo-list .todo-list-item:hover,
+.container .tasks .todo-list .active-todo-list-item
+{
+	color: #fff;
+	font-style: bold;
+	font-size: 20px;
+	margin-left: 5px;
+}
+.container .tasks .input-new-task
+{
+	position: relative;
+	/* border: 1px solid orange; */
+}
+
+.container .tasks .input-new-task .submit_btn
+{
+	position: absolute;
+	left: 30%;
+}
+
+.container .tasks .input-new-task input
+{
+	position: relative;
+	opacity: 1;
+	width: 100%;
+	height: 30px;
+	background: transparent;
+	border: 0;
+	color: #fff;
+	font-size: 17px;
+	transition: 0.1s;
+	/* border: 1px solid pink; */
+}
+.container .tasks .input-new-task input::placeholder
+{
+	font-size: 15px;
+	color: #fff;
+	font-weight: 100;
+}
+
+.container .tasks .input-new-task .line
+{
+	content: '';
+	position: absolute;
+	width: 65px;
+	height: 2px;
+	top: 30px;
+	background: rgb(0, 0, 0);
+	transition: 0.3s;
+}
+
+.container .tasks .input-new-task input:focus
+{
+	margin-left: 10px;
+}
+.container .tasks .input-new-task input:focus + .line
+{
+	width: 100%;
+	margin-left: 10px;
+}
