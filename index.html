@@ -5,23 +5,48 @@
 	<meta charset="UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<!--<link rel="stylesheet" type="text/css" href="/home/shine/Courses/C3i/Website/fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>-->
+
 	<script defer src="../../Internet_tech/JQuery/jquery-3.4.1.min.js"></script>
 	<script defer src="script.js"></script>
 </head>
 <body>
 	<div class="header">
-		
+		<h2>To Do List</h2>
 	</div>
 	<div class="container">
 		<div class="tasks">
 			<h3>Your Lists</h3>
 			<ul class="todo-list" id="todo-list">
-				
+				<li class="todo-list-item" id="task_1">Genius
+					<span class="toggle-done"><input type="checkbox"/><span>
+					<span onclick="remove_task('task_1')" class="del_icon">
+						<i class="fa fa-trash"></i>
+					</span>
+				</li>
+				<li class="todo-list-item" id="task_2">Billioneer
+					<span class="toggle-done"><input type="checkbox"/><span>
+					<span onclick="remove_task('task_2')" class="del_icon">
+						<i class="fa fa-trash"></i>
+					</span>
+				</li>
+				<li class="todo-list-item" id="task_3">PlayBoy
+					<span class="toggle-done"><input type="checkbox"/><span>
+					<span onclick="remove_task('task_3')" class="del_icon">
+						<i class="fa fa-trash"></i>
+					</span>
+				</li>
+				<li class="todo-list-item" id="task_4">Philonthropist
+					<span class="toggle-done"><input type="checkbox"/><span>
+					<span onclick="remove_task('task_4')" class="del_icon">
+						<i class="fa fa-trash"></i>
+					</span>
+				</li>
 			</ul>
 			<div class="input-new-task">
 				<input type="text" name="new_task" placeholder="New Task"/>
 				<div class="line"></div><br/>
-				<button class="submit_btn">Submit</button>
+				<div class="submit_btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
 			</div>
 		</div>
 		<div class="task-info">

@@ -2,6 +2,9 @@ $(document).ready(function () {
     var submit_btn = $('.input-new-task .submit_btn');
     submit_btn.click(add_new_task);
 
+    $('.toggle-done').change(function(){
+        $(this).parent().toggleClass("task-done");
+    });
 });
 
 function add_new_task() 
