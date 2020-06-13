@@ -1,3 +1,4 @@
+// DOM Elements
 const tasksContainer = document.querySelector('.tasks_container')
 const taskDoneButtons = document.querySelectorAll('.done input')
 const editButtons = document.querySelectorAll('.edit i')
@@ -29,6 +30,7 @@ const clearTasks = () => {
 
 const renderTasks = () => {
     clearTasks()
+    console.log(tasks)
     tasks.forEach(task => {
         let taskElement = document.createElement('div')
         taskElement.classList.add('task')
@@ -49,7 +51,7 @@ const renderTasks = () => {
         let doneElement = document.createElement('div')
         doneElement.classList.add('done')
         doneElement.innerHTML = `<input type="checkbox" ${task.completed ? "checked" : ""}>`
-        doneElement.addEventListener('click', markTaskCompleted)
+        doneElement.addEventListener('click', toggleTaskCompleted)
 
         let deleteIconElement = document.createElement('div')
         deleteIconElement.classList.add('delete')
@@ -91,6 +93,9 @@ const createUniqueID = (name) => {
 
 // Create New Task
 const createNewTask = (name) => {
+    if (!name) {
+        return
+    }
     let taskID = createUniqueID(name)
     let newTask = {
         id: taskID,
@@ -102,15 +107,15 @@ const createNewTask = (name) => {
     renderTasks()
 }
 
-const markTaskCompleted = (event) => {
+const toggleTaskCompleted = (event) => {
     let correspondingTaskElement = event.target.parentElement.parentElement
     let taskID = correspondingTaskElement.getAttribute('data-task-id')
     correspondingTaskElement.classList.toggle('completed')
 
     tasks.forEach(task => {
         if (task.id == taskID) {
-            task.completed = true
-            return false
+            task.completed = !task.completed
+            return
         }
     })
 }
@@ -130,7 +135,7 @@ renderTasks()
 
 // Completed task
 taskDoneButtons.forEach(button => {
-    button.addEventListener('click', markTaskCompleted)
+    button.addEventListener('click', toggleTaskCompleted)
 })
 
 // Create New Task

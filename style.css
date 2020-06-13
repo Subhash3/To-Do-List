@@ -29,6 +29,10 @@ body {
   font-size: 19px;
   font-weight: bold;
   font-style: italic;
+  background: -webkit-gradient(linear, right top, left top, from(white), color-stop(#a0b3bd), to(#adc3d4));
+  background: linear-gradient(to left, white, #a0b3bd, #adc3d4);
+  background-clip: text;
+  color: transparent;
 }
 
 .container .tasks_container {
@@ -70,11 +74,16 @@ body {
 .container .tasks_container .task i {
   cursor: pointer;
   color: black;
+  pointer-events: all;
 }
 
 .container .tasks_container .task .edit {
   margin-left: auto;
   margin-right: 5px;
+}
+
+.container .tasks_container .task .edit, .container .tasks_container .task .delete {
+  pointer-events: none;
 }
 
 .container .tasks_container .task:hover {
