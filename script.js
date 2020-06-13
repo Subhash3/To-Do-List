@@ -1,31 +1,156 @@
-$(document).ready(function () {
-    var submit_btn = $('.input-new-task .submit_btn');
-    submit_btn.click(add_new_task);
+const tasksContainer = document.querySelector('.tasks_container')
+const taskDoneButtons = document.querySelectorAll('.done input')
+const editButtons = document.querySelectorAll('.edit i')
+const addTaskForm = document.querySelector('form.add_task')
+const addTaskButton = document.querySelector('.submit_new_task i')
+const addTaskInput = document.querySelector('form.add_task input')
 
-    $('.toggle-done').change(function(){
-        $(this).parent().toggleClass("task-done");
-    });
-});
-
-function add_new_task() 
-{
-    var input_box = $('.input-new-task input');
-    var task_list = $('#todo-list');
-    
-    new_task = input_box.val();
-    if(new_task != '' && new_task != " " && new_task != null && new_task != undefined)
+var tasks = [
     {
-        no_of_tasks = $('.todo-list-item').length;
-        new_task_id = "task_"+(no_of_tasks+1);
-        delete_icon = "<span onclick=remove_task(" + "'" + new_task_id + "'" + ") class='del_icon'><i class='fa fa-trash'></i></span>";
-        task_list.append("<li class='todo-list-item' id="+new_task_id+">" + new_task + delete_icon + "</li>");
-        input_box.val(null);
-        input_box.attr("placeholder", "New Task");
+        id: 1,
+        name: "Task 1",
+        completed: false
+    },
+    {
+        id: 2,
+        name: "Task 2",
+        completed: true
+    },
+    {
+        id: 3,
+        name: "Task 3",
+        completed: false
     }
+]
+
+const clearTasks = () => {
+    tasksContainer.innerHTML = ""
 }
 
-function remove_task(task_id)
-{
-    task_to_be_removed = $('#'+task_id);
-    task_to_be_removed.fadeOut("slow", 0, task_to_be_removed.remove());
+const renderTasks = () => {
+    clearTasks()
+    tasks.forEach(task => {
+        let taskElement = document.createElement('div')
+        taskElement.classList.add('task')
+        taskElement.setAttribute('data-task-id', task.id)
+        if (task.completed) {
+            taskElement.classList.add('completed')
+        }
+
+        let nameElement = document.createElement('div')
+        nameElement.classList.add('name')
+        nameElement.innerText = task.name
+
+        let editIconElement = document.createElement('div')
+        editIconElement.classList.add('edit')
+        editIconElement.innerHTML = `<i class="fa fa-pencil">`
+        // editIconElement.addEventListener('click', editTask)
+
+        let doneElement = document.createElement('div')
+        doneElement.classList.add('done')
+        doneElement.innerHTML = `<input type="checkbox" ${task.completed ? "checked" : ""}>`
+        doneElement.addEventListener('click', markTaskCompleted)
+
+        let deleteIconElement = document.createElement('div')
+        deleteIconElement.classList.add('delete')
+        deleteIconElement.innerHTML = `<i class="fa fa-trash">`
+        deleteIconElement.addEventListener('click', deleteTask)
+
+        taskElement.appendChild(nameElement)
+        taskElement.appendChild(editIconElement)
+        taskElement.appendChild(doneElement)
+        taskElement.appendChild(deleteIconElement)
+
+        tasksContainer.appendChild(taskElement)
+    })
 }
+
+// Shamelessly copied from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+const fadeOutEffect = (fadeTarget, callback) => {
+    var fadeEffect = setInterval(function () {
+        if (!fadeTarget.style.opacity) {
+            fadeTarget.style.opacity = 1;
+        }
+        if (fadeTarget.style.opacity > 0) {
+            fadeTarget.style.opacity -= 0.1;
+        } else {
+            clearInterval(fadeEffect);
+            callback()
+        }
+    }, 30);
+}
+
+const createUniqueID = (name) => {
+    let dateObj = new Date()
+    let milliseconds = dateObj.getTime()
+    name = name.replaceAll(' ', '-')
+    let id = name + milliseconds
+
+    return id
+}
+
+// Create New Task
+const createNewTask = (name) => {
+    let taskID = createUniqueID(name)
+    let newTask = {
+        id: taskID,
+        name: name,
+        completed: false
+    }
+
+    tasks.push(newTask)
+    renderTasks()
+}
+
+const markTaskCompleted = (event) => {
+    let correspondingTaskElement = event.target.parentElement.parentElement
+    let taskID = correspondingTaskElement.getAttribute('data-task-id')
+    correspondingTaskElement.classList.toggle('completed')
+
+    tasks.forEach(task => {
+        if (task.id == taskID) {
+            task.completed = true
+            return false
+        }
+    })
+}
+
+const deleteTask = (event) => {
+    correspondingTaskElement = event.target.parentElement.parentElement
+    let taskID = correspondingTaskElement.getAttribute('data-task-id')
+
+    let newTasksArr = tasks.filter(task => {
+        return task.id != taskID
+    })
+    tasks = newTasksArr
+    fadeOutEffect(correspondingTaskElement, renderTasks)
+}
+
+renderTasks()
+
+// Completed task
+taskDoneButtons.forEach(button => {
+    button.addEventListener('click', markTaskCompleted)
+})
+
+// Create New Task
+addTaskForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    let taskName = addTaskInput.value
+    createNewTask(taskName)
+    addTaskInput.value = ""
+})
+
+// Submit Form
+addTaskButton.addEventListener('click', (e) => {
+    let taskName = addTaskInput.value
+    createNewTask(taskName)
+    addTaskInput.value = ""
+})
+
+// Edit task name
+editButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        console.log(event.target.parentElement.parentElement)
+    })
+})

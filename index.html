@@ -1,58 +1,51 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>To Do List</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-	<!--<link rel="stylesheet" type="text/css" href="/home/shine/Courses/C3i/Website/fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>-->
+<html lang="en">
 
-	<script defer src="../../Internet_tech/JQuery/jquery-3.4.1.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>To Do List</title>
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 	<script defer src="script.js"></script>
 </head>
+
 <body>
-	<div class="header">
-		<h2>To Do List</h2>
-	</div>
 	<div class="container">
-		<div class="tasks">
-			<h3>Your Lists</h3>
-			<ul class="todo-list" id="todo-list">
-				<li class="todo-list-item" id="task_1">Genius
-					<span class="toggle-done"><input type="checkbox"/><span>
-					<span onclick="remove_task('task_1')" class="del_icon">
-						<i class="fa fa-trash"></i>
-					</span>
-				</li>
-				<li class="todo-list-item" id="task_2">Billioneer
-					<span class="toggle-done"><input type="checkbox"/><span>
-					<span onclick="remove_task('task_2')" class="del_icon">
-						<i class="fa fa-trash"></i>
-					</span>
-				</li>
-				<li class="todo-list-item" id="task_3">PlayBoy
-					<span class="toggle-done"><input type="checkbox"/><span>
-					<span onclick="remove_task('task_3')" class="del_icon">
-						<i class="fa fa-trash"></i>
-					</span>
-				</li>
-				<li class="todo-list-item" id="task_4">Philonthropist
-					<span class="toggle-done"><input type="checkbox"/><span>
-					<span onclick="remove_task('task_4')" class="del_icon">
-						<i class="fa fa-trash"></i>
-					</span>
-				</li>
-			</ul>
-			<div class="input-new-task">
-				<input type="text" name="new_task" placeholder="New Task"/>
-				<div class="line"></div><br/>
-				<div class="submit_btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+		<div class="title">To Do List</div>
+		<div class="tasks_container">
+			<div class="task" data-task-id="1">
+				<div class="name">Task Goes Here</div>
+				<div class="edit"><i class="fa fa-pencil"></i></div>
+				<div class="done"><input type="checkbox" name="complete-box" /></div>
+				<div class="delete"><i class="fa fa-trash"></i></div>
+			</div>
+			<div class="task">
+				<div class="name">Task Goes Here</div>
+				<div class="edit"><i class="fa fa-pencil"></i></div>
+				<div class="done"><input type="checkbox" name="complete-box"></div>
+				<div class="delete"><i class="fa fa-trash"></i></div>
+			</div>
+			<div class="task">
+				<div class="name">Task Goes Here</div>
+				<div class="edit"><i class="fa fa-pencil"></i></div>
+				<div class="done"><input type="checkbox" name="complete-box"></div>
+				<div class="delete"><i class="fa fa-trash"></i></div>
+			</div>
+			<div class="task">
+				<div class="name">Task Goes Here</div>
+				<div class="edit"><i class="fa fa-pencil"></i></div>
+				<div class="done"><input type="checkbox" name="complete-box"></div>
+				<div class="delete"><i class="fa fa-trash"></i></div>
 			</div>
 		</div>
-		<div class="task-info">
-			<h3 id="task-name">Task Name</h3>
-			<div class="info"></div>
-		</div>
+		<form class="add_task">
+			<input type="text" placeholder="New task" class="new_task_name" />
+			<div class="submit_new_task"><i class="fa fa-plus-square"></i></div>
+		</form>
 	</div>
 </body>
+
 </html>
