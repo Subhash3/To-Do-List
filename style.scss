@@ -11,11 +11,16 @@ body{
     background-image: linear-gradient(45deg,#274156, #294C60, #001B2E);
 }
 
+.all-todo-lists{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
 .container{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    width: 400px;
     padding: 10px;
     border: 1px solid black;
 
@@ -112,48 +117,48 @@ body{
             }
         }
     }
+}
 
-    form{
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        padding: 2px;
-        // border: 1px solid gray;
+form{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    // border: 1px solid gray;
 
-        .submit_new_task{
-            width: 50px;
-            height: 30px;
+    .submit_new_task, .submit-todo-list{
+        width: 50px;
+        height: 30px;
 
-            i{
-                position: absolute;
-                right: 0%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 20px;
-                color: #FBFCFF;
-                cursor: pointer;
-            }
-        }
-
-        input{
-            border: none;
-            border-bottom: 2px solid #FBFCFF;
-            width: 25%;
-            box-sizing: border-box;
-            transition: width 200ms ease-out,
-            padding 200ms ease-in,
-            font-size 200ms ease-in;
-            background-color: transparent;
+        i{
+            position: absolute;
+            right: 0%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
             color: #FBFCFF;
+            cursor: pointer;
+        }
+    }
 
-            &::placeholder{
-                color: white;
-            }
-            
-            &:focus{
-                width: 100%;
-                padding-left: 10px;
-            }
+    input{
+        border: none;
+        border-bottom: 2px solid #FBFCFF;
+        width: 25%;
+        box-sizing: border-box;
+        transition: width 200ms ease-out,
+        padding 200ms ease-in,
+        font-size 200ms ease-in;
+        background-color: transparent;
+        color: #FBFCFF;
+
+        &::placeholder{
+            color: white;
+        }
+        
+        &:focus{
+            width: 100%;
+            padding-left: 10px;
         }
     }
 }

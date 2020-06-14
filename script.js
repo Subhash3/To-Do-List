@@ -1,161 +1,194 @@
-// DOM Elements
-const tasksContainer = document.querySelector('.tasks_container')
-const taskDoneButtons = document.querySelectorAll('.done input')
-const editButtons = document.querySelectorAll('.edit i')
-const addTaskForm = document.querySelector('form.add_task')
-const addTaskButton = document.querySelector('.submit_new_task i')
-const addTaskInput = document.querySelector('form.add_task input')
+class ToDoList {
+    constructor(listContainer) {
+        this.listContainer = listContainer
 
-var tasks = [
-    {
-        id: 1,
-        name: "Task 1",
-        completed: false
-    },
-    {
-        id: 2,
-        name: "Task 2",
-        completed: true
-    },
-    {
-        id: 3,
-        name: "Task 3",
-        completed: false
-    }
-]
+        // DOM Elements
+        this.tasksContainer = listContainer.querySelector('.tasks_container')
+        this.taskDoneButtons = listContainer.querySelectorAll('.done input')
+        this.editButtons = listContainer.querySelectorAll('.edit i')
+        this.addTaskForm = listContainer.querySelector('form.add_task')
+        this.addTaskButton = listContainer.querySelector('.submit_new_task i')
+        this.addTaskInput = listContainer.querySelector('form.add_task input')
 
-const clearTasks = () => {
-    tasksContainer.innerHTML = ""
-}
 
-const renderTasks = () => {
-    clearTasks()
-    console.log(tasks)
-    tasks.forEach(task => {
-        let taskElement = document.createElement('div')
-        taskElement.classList.add('task')
-        taskElement.setAttribute('data-task-id', task.id)
-        if (task.completed) {
-            taskElement.classList.add('completed')
-        }
+        this.tasks = [
+            {
+                id: 1,
+                name: "Task 1",
+                completed: false
+            },
+            {
+                id: 2,
+                name: "Task 2",
+                completed: true
+            },
+            {
+                id: 3,
+                name: "Task 3",
+                completed: false
+            }
+        ]
 
-        let nameElement = document.createElement('div')
-        nameElement.classList.add('name')
-        nameElement.innerText = task.name
+        // Completed task
+        this.taskDoneButtons.forEach(button => {
+            button.addEventListener('click', this.toggleTaskCompleted)
+        })
 
-        let editIconElement = document.createElement('div')
-        editIconElement.classList.add('edit')
-        editIconElement.innerHTML = `<i class="fa fa-pencil">`
-        // editIconElement.addEventListener('click', editTask)
+        // Create New Task
+        this.addTaskForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let taskName = this.addTaskInput.value
+            this.createNewTask(taskName)
+            this.addTaskInput.value = ""
+        })
 
-        let doneElement = document.createElement('div')
-        doneElement.classList.add('done')
-        doneElement.innerHTML = `<input type="checkbox" ${task.completed ? "checked" : ""}>`
-        doneElement.addEventListener('click', toggleTaskCompleted)
+        // Submit Form
+        this.addTaskButton.addEventListener('click', (e) => {
+            let taskName = this.addTaskInput.value
+            this.createNewTask(taskName)
+            this.addTaskInput.value = ""
+        })
 
-        let deleteIconElement = document.createElement('div')
-        deleteIconElement.classList.add('delete')
-        deleteIconElement.innerHTML = `<i class="fa fa-trash">`
-        deleteIconElement.addEventListener('click', deleteTask)
-
-        taskElement.appendChild(nameElement)
-        taskElement.appendChild(editIconElement)
-        taskElement.appendChild(doneElement)
-        taskElement.appendChild(deleteIconElement)
-
-        tasksContainer.appendChild(taskElement)
-    })
-}
-
-// Shamelessly copied from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
-const fadeOutEffect = (fadeTarget, callback) => {
-    var fadeEffect = setInterval(function () {
-        if (!fadeTarget.style.opacity) {
-            fadeTarget.style.opacity = 1;
-        }
-        if (fadeTarget.style.opacity > 0) {
-            fadeTarget.style.opacity -= 0.1;
-        } else {
-            clearInterval(fadeEffect);
-            callback()
-        }
-    }, 30);
-}
-
-const createUniqueID = (name) => {
-    let dateObj = new Date()
-    let milliseconds = dateObj.getTime()
-    name = name.replaceAll(' ', '-')
-    let id = name + milliseconds
-
-    return id
-}
-
-// Create New Task
-const createNewTask = (name) => {
-    if (!name) {
-        return
-    }
-    let taskID = createUniqueID(name)
-    let newTask = {
-        id: taskID,
-        name: name,
-        completed: false
+        // Edit task name
+        this.editButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                console.log(event.target.parentElement.parentElement)
+            })
+        })
     }
 
-    tasks.push(newTask)
-    renderTasks()
-}
+    clearTasks = () => {
+        this.tasksContainer.innerHTML = ""
+    }
 
-const toggleTaskCompleted = (event) => {
-    let correspondingTaskElement = event.target.parentElement.parentElement
-    let taskID = correspondingTaskElement.getAttribute('data-task-id')
-    correspondingTaskElement.classList.toggle('completed')
+    renderTasks = () => {
+        this.clearTasks()
+        console.log(this.tasks)
+        this.tasks.forEach(task => {
+            let taskElement = document.createElement('div')
+            taskElement.classList.add('task')
+            taskElement.setAttribute('data-task-id', task.id)
+            if (task.completed) {
+                taskElement.classList.add('completed')
+            }
 
-    tasks.forEach(task => {
-        if (task.id == taskID) {
-            task.completed = !task.completed
+            let nameElement = document.createElement('div')
+            nameElement.classList.add('name')
+            nameElement.innerText = task.name
+
+            let editIconElement = document.createElement('div')
+            editIconElement.classList.add('edit')
+            editIconElement.innerHTML = `<i class="fa fa-pencil">`
+            // editIconElement.addEventListener('click', editTask)
+
+            let doneElement = document.createElement('div')
+            doneElement.classList.add('done')
+            doneElement.innerHTML = `<input type="checkbox" ${task.completed ? "checked" : ""}>`
+            doneElement.addEventListener('click', this.toggleTaskCompleted)
+
+            let deleteIconElement = document.createElement('div')
+            deleteIconElement.classList.add('delete')
+            deleteIconElement.innerHTML = `<i class="fa fa-trash">`
+            deleteIconElement.addEventListener('click', this.deleteTask)
+
+            taskElement.appendChild(nameElement)
+            taskElement.appendChild(editIconElement)
+            taskElement.appendChild(doneElement)
+            taskElement.appendChild(deleteIconElement)
+
+            this.tasksContainer.appendChild(taskElement)
+        })
+    }
+
+
+    // Shamelessly copied from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+    fadeOutEffect = (fadeTarget, callback) => {
+        var fadeEffect = setInterval(function () {
+            if (!fadeTarget.style.opacity) {
+                fadeTarget.style.opacity = 1;
+            }
+            if (fadeTarget.style.opacity > 0) {
+                fadeTarget.style.opacity -= 0.1;
+            } else {
+                clearInterval(fadeEffect);
+                callback()
+            }
+        }, 30);
+    }
+
+    createUniqueID = (name) => {
+        let dateObj = new Date()
+        let milliseconds = dateObj.getTime()
+        name = name.replaceAll(' ', '-')
+        let id = name + milliseconds
+
+        return id
+    }
+
+    // Create New Task
+    createNewTask = (name) => {
+        if (!name) {
             return
         }
-    })
+        let taskID = this.createUniqueID(name)
+        let newTask = {
+            id: taskID,
+            name: name,
+            completed: false
+        }
+
+        this.tasks.push(newTask)
+        this.renderTasks()
+    }
+
+    toggleTaskCompleted = (event) => {
+        let correspondingTaskElement = event.target.parentElement.parentElement
+        let taskID = correspondingTaskElement.getAttribute('data-task-id')
+        correspondingTaskElement.classList.toggle('completed')
+
+        this.tasks.forEach(task => {
+            if (task.id == taskID) {
+                task.completed = !task.completed
+                return
+            }
+        })
+    }
+
+    deleteTask = (event) => {
+        let correspondingTaskElement = event.target.parentElement.parentElement
+        let taskID = correspondingTaskElement.getAttribute('data-task-id')
+
+        let newTasksArr = this.tasks.filter(task => {
+            return task.id != taskID
+        })
+        this.tasks = newTasksArr
+        this.fadeOutEffect(correspondingTaskElement, this.renderTasks)
+    }
 }
 
-const deleteTask = (event) => {
-    correspondingTaskElement = event.target.parentElement.parentElement
-    let taskID = correspondingTaskElement.getAttribute('data-task-id')
+const createNewToDoList = (title, id) => {
+    let container = document.createElement('div')
+    container.classList.add('.container')
+    container.id = "todo-" + id.toString()
 
-    let newTasksArr = tasks.filter(task => {
-        return task.id != taskID
-    })
-    tasks = newTasksArr
-    fadeOutEffect(correspondingTaskElement, renderTasks)
+    let titleElement = document.createElement('div')
+    titleElement.classList.add('title')
+    titleElement.innerText = title
+
+    let tasksContainer = document.createElement('div')
+    tasksContainer.classList.add('tasks_container')
+
+    container.appendChild(titleElement)
+    container.appendChild(tasksContainer)
+
+    allTodoListContainers.appendChild(container)
 }
 
-renderTasks()
+let allTodoListContainers = document.querySelectorAll('.container')
 
-// Completed task
-taskDoneButtons.forEach(button => {
-    button.addEventListener('click', toggleTaskCompleted)
-})
-
-// Create New Task
-addTaskForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    let taskName = addTaskInput.value
-    createNewTask(taskName)
-    addTaskInput.value = ""
-})
-
-// Submit Form
-addTaskButton.addEventListener('click', (e) => {
-    let taskName = addTaskInput.value
-    createNewTask(taskName)
-    addTaskInput.value = ""
-})
-
-// Edit task name
-editButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        console.log(event.target.parentElement.parentElement)
-    })
+let todoListObjects = []
+allTodoListContainers.forEach(container => {
+    todoListObj = new ToDoList(container)
+    todoListObjects.push(todoListObj)
+    todoListObj.renderTasks()
 })

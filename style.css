@@ -12,12 +12,21 @@ body {
   background-image: linear-gradient(45deg, #274156, #294C60, #001B2E);
 }
 
+.all-todo-lists {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
 .container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  width: 400px;
   padding: 10px;
   border: 1px solid black;
 }
@@ -133,7 +142,7 @@ body {
           transform: translateY(-50%);
 }
 
-.container form {
+form {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -145,12 +154,12 @@ body {
   padding: 2px;
 }
 
-.container form .submit_new_task {
+form .submit_new_task, form .submit-todo-list {
   width: 50px;
   height: 30px;
 }
 
-.container form .submit_new_task i {
+form .submit_new_task i, form .submit-todo-list i {
   position: absolute;
   right: 0%;
   top: 50%;
@@ -161,7 +170,7 @@ body {
   cursor: pointer;
 }
 
-.container form input {
+form input {
   border: none;
   border-bottom: 2px solid #FBFCFF;
   width: 25%;
@@ -173,23 +182,23 @@ body {
   color: #FBFCFF;
 }
 
-.container form input::-webkit-input-placeholder {
+form input::-webkit-input-placeholder {
   color: white;
 }
 
-.container form input:-ms-input-placeholder {
+form input:-ms-input-placeholder {
   color: white;
 }
 
-.container form input::-ms-input-placeholder {
+form input::-ms-input-placeholder {
   color: white;
 }
 
-.container form input::placeholder {
+form input::placeholder {
   color: white;
 }
 
-.container form input:focus {
+form input:focus {
   width: 100%;
   padding-left: 10px;
 }
