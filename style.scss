@@ -9,14 +9,58 @@ body{
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,#274156, #294C60, #001B2E);
+    overflow-x: hidden;
 }
 
 .all-todo-lists{
     position: relative;
-    height: 100vh;
-    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 100px 0 0 0;
+}
+
+.list-of-lists{
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    min-width: 250px;
+    border: 1px solid black;
+
+    .list{
+        min-width: 250px;
+        padding: 10px 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color: #FBFCFF;
+        font-size: 17px;
+        cursor: pointer;
+        transition: transform 200ms ease-in-out,
+                    background-color 200ms ease-in-out;
+        // border: 1px solid pink;
+
+        &:hover{
+            box-shadow: -1px 1px 10px #728390;
+            transform: translateX(3px);
+        }
+
+        i{
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .edit{
+            margin-left: auto;
+            margin-right: 15px;
+        }
+
+        .edit, .delete{
+            pointer-events: none;
+        }
+    }
 }
 
 .container{
@@ -126,7 +170,7 @@ form{
     padding: 2px;
     // border: 1px solid gray;
 
-    .submit_new_task, .submit-todo-list{
+    .submit_new_task, .submit_new_list{
         width: 50px;
         height: 30px;
 

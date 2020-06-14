@@ -10,12 +10,27 @@ body {
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(45deg, #274156, #294C60, #001B2E);
+  overflow-x: hidden;
 }
 
 .all-todo-lists {
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 100px 0 0 0;
+}
+
+.list-of-lists {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -23,6 +38,53 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  padding: 10px;
+  min-width: 250px;
+  border: 1px solid black;
+}
+
+.list-of-lists .list {
+  min-width: 250px;
+  padding: 10px 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #FBFCFF;
+  font-size: 17px;
+  cursor: pointer;
+  -webkit-transition: background-color 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  transition: background-color 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+
+.list-of-lists .list:hover {
+  -webkit-box-shadow: -1px 1px 10px #728390;
+          box-shadow: -1px 1px 10px #728390;
+  -webkit-transform: translateX(3px);
+          transform: translateX(3px);
+}
+
+.list-of-lists .list i {
+  color: white;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.list-of-lists .list .edit {
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.list-of-lists .list .edit, .list-of-lists .list .delete {
+  pointer-events: none;
 }
 
 .container {
@@ -154,12 +216,12 @@ form {
   padding: 2px;
 }
 
-form .submit_new_task, form .submit-todo-list {
+form .submit_new_task, form .submit_new_list {
   width: 50px;
   height: 30px;
 }
 
-form .submit_new_task i, form .submit-todo-list i {
+form .submit_new_task i, form .submit_new_list i {
   position: absolute;
   right: 0%;
   top: 50%;
