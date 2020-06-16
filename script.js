@@ -1,49 +1,51 @@
+var SELECTED_LIST_ID = null
+
 var toDoLists = [
-    {
-        id: '1',
-        name: 'Shopping List'
-    },
-    {
-        id: '2',
-        name: 'Places to Visit'
-    }
+    // {
+    //     id: '1',
+    //     name: 'Shopping List'
+    // },
+    // {
+    //     id: '2',
+    //     name: 'Places to Visit'
+    // }
 ]
 
-var totalNumberOfLists = 2
+var totalNumberOfLists = 0
 
 var taskObjects = [
-    {
-        listId: '1',
-        taskCount: 2,
-        tasks: [
-            {
-                id: 'task-1',
-                name: 'Shirt',
-                completed: false
-            },
-            {
-                id: 'task-2',
-                name: 'Backpack',
-                completed: false
-            }
-        ]
-    },
-    {
-        listId: '2',
-        taskCount: 2,
-        tasks: [
-            {
-                id: 'task-1',
-                name: 'UOH',
-                completed: false
-            },
-            {
-                id: 'task-2',
-                name: '108',
-                completed: false
-            }
-        ]
-    },
+    // {
+    //     listId: '1',
+    //     taskCount: 2,
+    //     tasks: [
+    //         {
+    //             id: 'task-1',
+    //             name: 'Shirt',
+    //             completed: false
+    //         },
+    //         {
+    //             id: 'task-2',
+    //             name: 'Backpack',
+    //             completed: false
+    //         }
+    //     ]
+    // },
+    // {
+    //     listId: '2',
+    //     taskCount: 2,
+    //     tasks: [
+    //         {
+    //             id: 'task-1',
+    //             name: 'UOH',
+    //             completed: false
+    //         },
+    //         {
+    //             id: 'task-2',
+    //             name: '108',
+    //             completed: false
+    //         }
+    //     ]
+    // },
 ]
 
 // DOM elements
@@ -52,6 +54,93 @@ const addListFrom = document.querySelector('.add_new_list')
 const addListInput = document.querySelector('.new_list_name')
 const addListButton = document.querySelector('.submit_new_list')
 // const allToDoLists = document.querySelectorAll('.list')
+
+const todoListContainer = document.querySelector('.container')
+const listTitle = todoListContainer.querySelector('.title')
+const todoListTasksContainer = todoListContainer.querySelector('.tasks_container')
+const addTaskFrom = todoListContainer.querySelector('.add_task')
+const addTaskButton = todoListContainer.querySelector('.submit_new_task')
+const addTaskInput = todoListContainer.querySelector('.new_task_name')
+
+
+const clearListTasksContainer = () => {
+    todoListTasksContainer.innerHTML = ""
+}
+
+const createNewTask = (taskName) => {
+    if (SELECTED_LIST_ID == null) {
+        alert("Please select a list!")
+        return
+    }
+    let i = 0;
+    for (i = 0; i < totalNumberOfLists; i++) {
+        taskObject = taskObjects[i]
+        if (taskObject.listId == SELECTED_LIST_ID) {
+            break
+        }
+    }
+
+    taskObjects[i].taskCount += 1
+
+    let newTask = {
+        id: 'task-' + taskObjects[i].taskCount.toString(),
+        name: taskName,
+        completed: false
+    }
+    taskObjects[i].tasks.push(newTask)
+
+    renderTasks()
+}
+
+const createTaskTemplate = (taskId, taskName, completed) => {
+    let taskElement = document.createElement('div')
+    taskElement.classList.add('task')
+    taskElement.id = taskId
+
+    let nameElement = document.createElement('div')
+    nameElement.classList.add('name')
+    nameElement.innerText = taskName
+
+    let editIcon = document.createElement('div')
+    editIcon.classList.add('edit')
+    editIcon.innerHTML = `<i class="fa fa-pencil"></i>`
+
+    let doneElement = document.createElement('div')
+    doneElement.classList.add('done')
+    doneElement.innerHTML = `<input type="checkbox" name="complete-box" ${completed}/>`
+
+    let deleteIcon = document.createElement('div')
+    deleteIcon.classList.add('delete')
+    deleteIcon.innerHTML = `<i class="fa fa-trash"></i>`
+
+    taskElement.appendChild(nameElement)
+    taskElement.appendChild(editIcon)
+    taskElement.appendChild(doneElement)
+    taskElement.appendChild(deleteIcon)
+
+    return taskElement
+}
+
+const renderTasks = () => {
+    let title = ""
+    for (let i = 0; i < totalNumberOfLists; i++) {
+        taskObject = taskObjects[i]
+        if (taskObject.listId == SELECTED_LIST_ID) {
+            title = toDoLists[i].name
+            break
+        }
+    }
+
+    listTitle.innerText = title
+
+    clearListTasksContainer()
+
+    for (var i = 0; i < taskObject.taskCount; i++) {
+        task = taskObject.tasks[i]
+        let taskElement = createTaskTemplate(task.id, task.name, task.completed)
+        todoListTasksContainer.appendChild(taskElement)
+    }
+}
 
 const renderListTasks = (e) => {
     let targetElement = e.target
@@ -67,12 +156,9 @@ const renderListTasks = (e) => {
         var listId = targetElement.id
     }
 
-    taskObjects.forEach(taskObject => {
-        if (taskObject.listId == listId) {
-            console.log(taskObject)
-            return
-        }
-    })
+    SELECTED_LIST_ID = listId
+
+    renderTasks()
 }
 
 const clearListNames = () => {
@@ -150,5 +236,22 @@ addListButton.addEventListener('click', (e) => {
     addListInput.value = ""
 })
 
-createNewList("Nice")
-createNewList("Not Nice")
+// Create New Task
+addTaskFrom.addEventListener('submit', (e) => {
+    e.preventDefault()
+    let taskName = addTaskInput.value
+    createNewTask(taskName)
+    addTaskInput.value = ""
+    console.log(taskName)
+})
+
+// Submit Form
+addTaskButton.addEventListener('click', (e) => {
+    let taskName = addTaskInput.value
+    createNewTask(taskName)
+    addTaskInput.value = ""
+    console.log(taskName)
+})
+
+// createNewList("Nice")
+// createNewList("Not Nice")

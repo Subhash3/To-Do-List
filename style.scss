@@ -28,6 +28,17 @@ body{
     min-width: 250px;
     border: 1px solid black;
 
+    .title{
+        display: grid;
+        place-items: center;
+        font-size: 19px;
+        font-weight: bold;
+        font-style: italic;
+        background: linear-gradient(to left, white, rgb(160, 179, 189), #adc3d4);
+        background-clip: text;
+        color: transparent;
+    }
+
     .list{
         min-width: 250px;
         padding: 10px 5px;

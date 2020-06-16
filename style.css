@@ -43,6 +43,19 @@ body {
   border: 1px solid black;
 }
 
+.list-of-lists .title {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  font-weight: bold;
+  font-style: italic;
+  background: -webkit-gradient(linear, right top, left top, from(white), color-stop(#a0b3bd), to(#adc3d4));
+  background: linear-gradient(to left, white, #a0b3bd, #adc3d4);
+  background-clip: text;
+  color: transparent;
+}
+
 .list-of-lists .list {
   min-width: 250px;
   padding: 10px 5px;
