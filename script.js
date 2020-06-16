@@ -242,7 +242,7 @@ addTaskFrom.addEventListener('submit', (e) => {
     let taskName = addTaskInput.value
     createNewTask(taskName)
     addTaskInput.value = ""
-    console.log(taskName)
+    // console.log(taskName)
 })
 
 // Submit Form
