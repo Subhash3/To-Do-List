@@ -65,6 +65,15 @@ const clearListTasksContainer = () => {
     todoListTasksContainer.innerHTML = ""
 }
 
+const selectedListIndex = () => {
+    let j = 0
+    for (j = 0; j < totalNumberOfLists; j++) {
+        if (toDoLists[j].id == SELECTED_LIST_ID) {
+            return j
+        }
+    }
+}
+
 const createUniqueID = (name) => {
     let dateObj = new Date()
     let milliseconds = dateObj.getTime()
@@ -182,8 +191,8 @@ const renderListTasks = (e) => {
         listElement.classList.remove("selected-list")
     }
 
-    let i = parseInt(SELECTED_LIST_ID) - 1
-    selectedListElement = allToDoListElements[i]
+    let index = selectedListIndex()
+    selectedListElement = allToDoListElements[index]
     selectedListElement.classList.toggle('selected-list')
 
     renderTasks()
@@ -228,7 +237,7 @@ const createNewList = (name) => {
         return
     }
     totalNumberOfLists++
-    id = totalNumberOfLists.toString()
+    id = createUniqueID('list-')
 
     let listItem = {
         id: id,
@@ -268,8 +277,9 @@ const toggleTaskCompleted = (event) => {
     let taskID = correspondingTaskElement.getAttribute('task-id')
     correspondingTaskElement.classList.toggle('completed')
 
-    let i = parseInt(SELECTED_LIST_ID) - 1
-    listObjects[i].tasks.forEach(task => {
+    let index = selectedListIndex()
+
+    listObjects[index].tasks.forEach(task => {
         if (task.id == taskID) {
             task.completed = !task.completed
         }
@@ -278,12 +288,13 @@ const toggleTaskCompleted = (event) => {
 
 const deleteTask = (e) => {
     let correspondingTaskElement = e.target.parentElement.parentElement
-    let i = parseInt(SELECTED_LIST_ID) - 1
+    let index = selectedListIndex()
+
     let taskID = correspondingTaskElement.getAttribute('task-id')
 
-    console.log("Deleting " + taskID + " From the List-" + i)
+    console.log("Deleting " + taskID + " From the List-" + (index + 1))
 
-    let listObject = listObjects[i]
+    let listObject = listObjects[index]
     let filteredTasks = []
     for (let i = 0; i < listObject.taskCount; i++) {
         if (listObject.tasks[i].id != taskID) {
@@ -291,8 +302,8 @@ const deleteTask = (e) => {
         }
     }
 
-    listObjects[i].tasks = filteredTasks
-    listObjects[i].taskCount -= 1
+    listObjects[index].tasks = filteredTasks
+    listObjects[index].taskCount -= 1
 
     fadeOutEffect(correspondingTaskElement, renderTasks)
 }
