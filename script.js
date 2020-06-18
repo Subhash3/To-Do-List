@@ -1,51 +1,51 @@
 var SELECTED_LIST_ID = null
 
 var toDoLists = [
-    // {
-    //     id: '1',
-    //     name: 'Shopping List'
-    // },
-    // {
-    //     id: '2',
-    //     name: 'Places to Visit'
-    // }
+    {
+        id: '1',
+        name: 'Shopping List'
+    },
+    {
+        id: '2',
+        name: 'Places to Visit'
+    }
 ]
 
-var totalNumberOfLists = 0
+var totalNumberOfLists = 2
 
-var taskObjects = [
-    // {
-    //     listId: '1',
-    //     taskCount: 2,
-    //     tasks: [
-    //         {
-    //             id: 'task-1',
-    //             name: 'Shirt',
-    //             completed: false
-    //         },
-    //         {
-    //             id: 'task-2',
-    //             name: 'Backpack',
-    //             completed: false
-    //         }
-    //     ]
-    // },
-    // {
-    //     listId: '2',
-    //     taskCount: 2,
-    //     tasks: [
-    //         {
-    //             id: 'task-1',
-    //             name: 'UOH',
-    //             completed: false
-    //         },
-    //         {
-    //             id: 'task-2',
-    //             name: '108',
-    //             completed: false
-    //         }
-    //     ]
-    // },
+var listObjects = [
+    {
+        listId: '1',
+        taskCount: 2,
+        tasks: [
+            {
+                id: 'task-1',
+                name: 'Shirt',
+                completed: false
+            },
+            {
+                id: 'task-2',
+                name: 'Backpack',
+                completed: false
+            }
+        ]
+    },
+    {
+        listId: '2',
+        taskCount: 2,
+        tasks: [
+            {
+                id: 'task-1',
+                name: 'UOH',
+                completed: false
+            },
+            {
+                id: 'task-2',
+                name: '108',
+                completed: false
+            }
+        ]
+    },
 ]
 
 // DOM elements
@@ -53,7 +53,6 @@ const listsContainer = document.querySelector('.lists-container')
 const addListFrom = document.querySelector('.add_new_list')
 const addListInput = document.querySelector('.new_list_name')
 const addListButton = document.querySelector('.submit_new_list')
-// const allToDoLists = document.querySelectorAll('.list')
 
 const todoListContainer = document.querySelector('.container')
 const listTitle = todoListContainer.querySelector('.title')
@@ -61,7 +60,6 @@ const todoListTasksContainer = todoListContainer.querySelector('.tasks_container
 const addTaskFrom = todoListContainer.querySelector('.add_task')
 const addTaskButton = todoListContainer.querySelector('.submit_new_task')
 const addTaskInput = todoListContainer.querySelector('.new_task_name')
-
 
 const clearListTasksContainer = () => {
     todoListTasksContainer.innerHTML = ""
@@ -74,20 +72,20 @@ const createNewTask = (taskName) => {
     }
     let i = 0;
     for (i = 0; i < totalNumberOfLists; i++) {
-        taskObject = taskObjects[i]
-        if (taskObject.listId == SELECTED_LIST_ID) {
+        listObject = listObjects[i]
+        if (listObject.listId == SELECTED_LIST_ID) {
             break
         }
     }
 
-    taskObjects[i].taskCount += 1
+    listObjects[i].taskCount += 1
 
     let newTask = {
-        id: 'task-' + taskObjects[i].taskCount.toString(),
+        id: 'task-' + listObjects[i].taskCount.toString(),
         name: taskName,
         completed: false
     }
-    taskObjects[i].tasks.push(newTask)
+    listObjects[i].tasks.push(newTask)
 
     renderTasks()
 }
@@ -95,7 +93,7 @@ const createNewTask = (taskName) => {
 const createTaskTemplate = (taskId, taskName, completed) => {
     let taskElement = document.createElement('div')
     taskElement.classList.add('task')
-    taskElement.id = taskId
+    taskElement.setAttribute('task-id', taskId)
 
     let nameElement = document.createElement('div')
     nameElement.classList.add('name')
@@ -108,6 +106,8 @@ const createTaskTemplate = (taskId, taskName, completed) => {
     let doneElement = document.createElement('div')
     doneElement.classList.add('done')
     doneElement.innerHTML = `<input type="checkbox" name="complete-box" ${completed}/>`
+    doneElement.addEventListener('click', toggleTaskCompleted)
+
 
     let deleteIcon = document.createElement('div')
     deleteIcon.classList.add('delete')
@@ -122,10 +122,11 @@ const createTaskTemplate = (taskId, taskName, completed) => {
 }
 
 const renderTasks = () => {
+    // console.log("Rendering tasks of list: " + SELECTED_LIST_ID)
     let title = ""
     for (let i = 0; i < totalNumberOfLists; i++) {
-        taskObject = taskObjects[i]
-        if (taskObject.listId == SELECTED_LIST_ID) {
+        listObject = listObjects[i]
+        if (listObject.listId == SELECTED_LIST_ID) {
             title = toDoLists[i].name
             break
         }
@@ -135,14 +136,17 @@ const renderTasks = () => {
 
     clearListTasksContainer()
 
-    for (var i = 0; i < taskObject.taskCount; i++) {
-        task = taskObject.tasks[i]
+    for (var i = 0; i < listObject.taskCount; i++) {
+        task = listObject.tasks[i]
         let taskElement = createTaskTemplate(task.id, task.name, task.completed)
         todoListTasksContainer.appendChild(taskElement)
     }
 }
 
 const renderListTasks = (e) => {
+    let allToDoListElements = document.querySelectorAll('.list')
+    // console.log(allToDoListElements)
+
     let targetElement = e.target
     let tagName = targetElement.tagName
 
@@ -156,7 +160,20 @@ const renderListTasks = (e) => {
         var listId = targetElement.id
     }
 
+    if (SELECTED_LIST_ID == listId) {
+        // console.log("Same list is rendered!")
+        return
+    }
     SELECTED_LIST_ID = listId
+
+    for (let i = 0; i < totalNumberOfLists; i++) {
+        listElement = allToDoListElements[i]
+        listElement.classList.remove("selected-list")
+    }
+
+    let i = parseInt(SELECTED_LIST_ID) - 1
+    selectedListElement = allToDoListElements[i]
+    selectedListElement.classList.toggle('selected-list')
 
     renderTasks()
 }
@@ -210,18 +227,18 @@ const createNewList = (name) => {
     toDoLists.push(listItem)
     // console.log(toDoLists)
 
-    taskObject = {
+    listObject = {
         listId: id,
         taskCount: 0,
         tasks: []
     }
 
-    taskObjects.push(taskObject)
+    listObjects.push(listObject)
 
     renderListNames()
 }
 
-// Create New Task
+// Create New List
 addListFrom.addEventListener('submit', (e) => {
     e.preventDefault()
     let listName = addListInput.value
@@ -252,6 +269,19 @@ addTaskButton.addEventListener('click', (e) => {
     addTaskInput.value = ""
     console.log(taskName)
 })
+const toggleTaskCompleted = (event) => {
+    let correspondingTaskElement = event.target.parentElement.parentElement
+    let taskID = correspondingTaskElement.getAttribute('task-id')
+    correspondingTaskElement.classList.toggle('completed')
+
+    let i = parseInt(SELECTED_LIST_ID) - 1
+    listObjects[i].tasks.forEach(task => {
+        if (task.id == taskID) {
+            task.completed = !task.completed
+        }
+    })
+}
 
 // createNewList("Nice")
 // createNewList("Not Nice")
+renderListNames()

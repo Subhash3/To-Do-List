@@ -55,6 +55,13 @@ body{
         &:hover{
             box-shadow: -1px 1px 10px #728390;
             transform: translateX(3px);
+            opacity: 0.9;
+        }
+
+        &.selected-list{
+            transform: translateX(3px);
+            background-color: rgb(11, 48, 75);
+            // box-shadow: -1px 1px 3px #728390;
         }
 
         i{
