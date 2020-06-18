@@ -12,6 +12,13 @@ body{
     overflow-x: hidden;
 }
 
+
+.name {
+    word-wrap: wrap;
+    padding-right: 1px;
+    margin-right: 100px;
+}
+
 .all-todo-lists{
     position: relative;
     display: flex;
@@ -37,6 +44,7 @@ body{
         background: linear-gradient(to left, white, rgb(160, 179, 189), #adc3d4);
         background-clip: text;
         color: transparent;
+        word-wrap: wrap;
     }
 
     .list{
@@ -114,12 +122,6 @@ body{
             border: 1px solid rgb(218, 218, 219);
             transition: box-shadow 200ms ease,
                         transform 200ms ease;
-
-            .name{
-                padding-right: 1px;
-                margin-right: 100px;
-            }
-
 
             i{
                 cursor: pointer;

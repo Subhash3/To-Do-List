@@ -13,6 +13,12 @@ body {
   overflow-x: hidden;
 }
 
+.name {
+  word-wrap: wrap;
+  padding-right: 1px;
+  margin-right: 100px;
+}
+
 .all-todo-lists {
   position: relative;
   display: -webkit-box;
@@ -54,6 +60,7 @@ body {
   background: linear-gradient(to left, white, #a0b3bd, #adc3d4);
   background-clip: text;
   color: transparent;
+  word-wrap: wrap;
 }
 
 .list-of-lists .list {
@@ -155,11 +162,6 @@ body {
   transition: -webkit-box-shadow 200ms ease, -webkit-transform 200ms ease;
   transition: box-shadow 200ms ease, transform 200ms ease;
   transition: box-shadow 200ms ease, transform 200ms ease, -webkit-box-shadow 200ms ease, -webkit-transform 200ms ease;
-}
-
-.container .tasks_container .task .name {
-  padding-right: 1px;
-  margin-right: 100px;
 }
 
 .container .tasks_container .task i {
