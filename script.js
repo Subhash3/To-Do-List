@@ -112,6 +112,8 @@ const createTaskTemplate = (taskId, taskName, completed) => {
     let deleteIcon = document.createElement('div')
     deleteIcon.classList.add('delete')
     deleteIcon.innerHTML = `<i class="fa fa-trash"></i>`
+    deleteIcon.addEventListener('click', deleteTask)
+
 
     taskElement.appendChild(nameElement)
     taskElement.appendChild(editIcon)
@@ -238,6 +240,54 @@ const createNewList = (name) => {
     renderListNames()
 }
 
+const fadeOutEffect = (fadeTarget, callback) => {
+    var fadeEffect = setInterval(function () {
+        if (!fadeTarget.style.opacity) {
+            fadeTarget.style.opacity = 1;
+        }
+        if (fadeTarget.style.opacity > 0) {
+            fadeTarget.style.opacity -= 0.1;
+        } else {
+            clearInterval(fadeEffect);
+            callback()
+        }
+    }, 30);
+}
+
+const toggleTaskCompleted = (event) => {
+    let correspondingTaskElement = event.target.parentElement.parentElement
+    let taskID = correspondingTaskElement.getAttribute('task-id')
+    correspondingTaskElement.classList.toggle('completed')
+
+    let i = parseInt(SELECTED_LIST_ID) - 1
+    listObjects[i].tasks.forEach(task => {
+        if (task.id == taskID) {
+            task.completed = !task.completed
+        }
+    })
+}
+
+const deleteTask = (e) => {
+    let correspondingTaskElement = e.target.parentElement.parentElement
+    let i = parseInt(SELECTED_LIST_ID) - 1
+    let taskID = correspondingTaskElement.getAttribute('task-id')
+
+    console.log("Deleting " + taskID + " From the List-" + i)
+
+    let listObject = listObjects[i]
+    let filteredTasks = []
+    for (let i = 0; i < listObject.taskCount; i++) {
+        if (listObject.tasks[i].id != taskID) {
+            filteredTasks.push(listObject.tasks[i])
+        }
+    }
+
+    listObjects[i].tasks = filteredTasks
+    listObjects[i].taskCount -= 1
+
+    fadeOutEffect(correspondingTaskElement, renderTasks)
+}
+
 // Create New List
 addListFrom.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -269,18 +319,6 @@ addTaskButton.addEventListener('click', (e) => {
     addTaskInput.value = ""
     console.log(taskName)
 })
-const toggleTaskCompleted = (event) => {
-    let correspondingTaskElement = event.target.parentElement.parentElement
-    let taskID = correspondingTaskElement.getAttribute('task-id')
-    correspondingTaskElement.classList.toggle('completed')
-
-    let i = parseInt(SELECTED_LIST_ID) - 1
-    listObjects[i].tasks.forEach(task => {
-        if (task.id == taskID) {
-            task.completed = !task.completed
-        }
-    })
-}
 
 // createNewList("Nice")
 // createNewList("Not Nice")
