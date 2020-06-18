@@ -65,6 +65,15 @@ const clearListTasksContainer = () => {
     todoListTasksContainer.innerHTML = ""
 }
 
+const createUniqueID = (name) => {
+    let dateObj = new Date()
+    let milliseconds = dateObj.getTime()
+    name = name.replaceAll(' ', '-')
+    let id = name + milliseconds
+
+    return id
+}
+
 const createNewTask = (taskName) => {
     if (SELECTED_LIST_ID == null) {
         alert("Please select a list!")
@@ -81,7 +90,7 @@ const createNewTask = (taskName) => {
     listObjects[i].taskCount += 1
 
     let newTask = {
-        id: 'task-' + listObjects[i].taskCount.toString(),
+        id: createUniqueID('task-'),
         name: taskName,
         completed: false
     }
