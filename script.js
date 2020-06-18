@@ -62,6 +62,7 @@ const addTaskButton = todoListContainer.querySelector('.submit_new_task')
 const addTaskInput = todoListContainer.querySelector('.new_task_name')
 
 const clearListTasksContainer = () => {
+    listTitle.innerText = "List of Tasks Go here.."
     todoListTasksContainer.innerHTML = ""
 }
 
@@ -72,6 +73,34 @@ const selectedListIndex = () => {
             return j
         }
     }
+}
+
+const listIDtoIndex = (listID) => {
+    // if(listID == SELECTED_LIST_ID){
+    //     return selectedListIndex()
+    // }
+
+    for (let i = 0; i < totalNumberOfLists; i++) {
+        if (toDoLists[i].id == listID) {
+            return i
+        }
+    }
+}
+
+const highlightSelectedList = () => {
+    let allToDoListElements = document.querySelectorAll('.list')
+
+    for (let i = 0; i < totalNumberOfLists; i++) {
+        listElement = allToDoListElements[i]
+        listElement.classList.remove("selected-list")
+    }
+
+    let index = selectedListIndex()
+    if (index === undefined) return
+
+    console.log("Selected list index:", index)
+    selectedListElement = allToDoListElements[index]
+    selectedListElement.classList.add('selected-list')
 }
 
 const createUniqueID = (name) => {
@@ -143,6 +172,11 @@ const createTaskTemplate = (taskId, taskName, completed) => {
 
 const renderTasks = () => {
     // console.log("Rendering tasks of list: " + SELECTED_LIST_ID)
+    clearListTasksContainer()
+    if (SELECTED_LIST_ID == null) {
+        return
+    }
+
     let title = ""
     for (let i = 0; i < totalNumberOfLists; i++) {
         listObject = listObjects[i]
@@ -154,8 +188,6 @@ const renderTasks = () => {
 
     listTitle.innerText = title
 
-    clearListTasksContainer()
-
     for (var i = 0; i < listObject.taskCount; i++) {
         task = listObject.tasks[i]
         let taskElement = createTaskTemplate(task.id, task.name, task.completed)
@@ -164,9 +196,6 @@ const renderTasks = () => {
 }
 
 const renderListTasks = (e) => {
-    let allToDoListElements = document.querySelectorAll('.list')
-    // console.log(allToDoListElements)
-
     let targetElement = e.target
     let tagName = targetElement.tagName
 
@@ -186,14 +215,7 @@ const renderListTasks = (e) => {
     }
     SELECTED_LIST_ID = listId
 
-    for (let i = 0; i < totalNumberOfLists; i++) {
-        listElement = allToDoListElements[i]
-        listElement.classList.remove("selected-list")
-    }
-
-    let index = selectedListIndex()
-    selectedListElement = allToDoListElements[index]
-    selectedListElement.classList.toggle('selected-list')
+    highlightSelectedList()
 
     renderTasks()
 }
@@ -223,6 +245,7 @@ const renderListNames = () => {
         let deleteIcon = document.createElement('div')
         deleteIcon.classList.add('delete')
         deleteIcon.innerHTML = `<i class="fa fa-trash">`
+        deleteIcon.addEventListener('click', deleteEntireList)
 
         listItem.appendChild(nameElement)
         listItem.appendChild(eidtIcon)
@@ -230,6 +253,7 @@ const renderListNames = () => {
 
         listsContainer.appendChild(listItem)
     })
+    highlightSelectedList()
 }
 
 const createNewList = (name) => {
@@ -284,6 +308,32 @@ const toggleTaskCompleted = (event) => {
             task.completed = !task.completed
         }
     })
+}
+
+const deleteEntireList = (e) => {
+    let = correspondingListElement = e.target.parentElement.parentElement
+    let listID = correspondingListElement.id
+
+    let listIndex = listIDtoIndex(listID)
+    console.log(listIndex)
+
+    console.log(toDoLists)
+    console.log(listObjects)
+
+    if (listIndex == 0) {
+        toDoLists.shift()
+        listObjects.shift()
+    } else {
+        toDoLists.splice(listIndex, listIndex)
+        listObjects.splice(listIndex, listIndex)
+    }
+    totalNumberOfLists -= 1
+    SELECTED_LIST_ID = null
+
+    console.log(toDoLists)
+    console.log(listObjects)
+    fadeOutEffect(correspondingListElement, renderListNames)
+    renderTasks()
 }
 
 const deleteTask = (e) => {
