@@ -6,12 +6,12 @@
 }
 
 body{
+    position: relative;
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,#274156, #294C60, #001B2E);
     overflow-x: hidden;
 }
-
 
 .name {
     word-wrap: wrap;
@@ -234,5 +234,43 @@ form{
         .list-of-lists{
             margin-bottom: 10px;
         }
+    }
+}
+
+
+.error-popup{
+    position: relative;
+
+    &::before{
+        --popup-height: 50px;
+        position: absolute;
+        content: 'Please Select a list!';
+        width: 150px;
+        height: var(--popup-height);
+        top: calc(var(--popup-height) * -1 - 10px);
+        left: 50%;
+        transform: translateX(-50%) scale(1);
+        transform-origin: bottom center;
+        background-color: rgb(224, 124, 99);
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 17x;
+        font-family: 'Times New Roman', Times, serif;
+        transition: transform 400ms ease-in-out,
+    }
+    &::after{
+        position: absolute;
+        content: '';
+        width: 30px;
+        height: 30px;
+        background-color: rgb(224, 124, 99);
+        top: -7px;
+        left: 50%;
+        transform: translate(-50%, -100%) rotate(45deg) scale(1);
+        transform-origin: top center;
+        z-index: -1;
+        transition: transform 400ms ease-in-out,
     }
 }

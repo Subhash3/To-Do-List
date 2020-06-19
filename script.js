@@ -49,6 +49,8 @@ var listObjects = [
 ]
 
 // DOM elements
+const listNamesContainer = document.querySelector('.list-of-lists')
+
 const listsContainer = document.querySelector('.lists-container')
 const addListFrom = document.querySelector('.add_new_list')
 const addListInput = document.querySelector('.new_list_name')
@@ -73,6 +75,14 @@ const selectedListIndex = () => {
             return j
         }
     }
+}
+
+const enableErrorPopup = () => {
+    listNamesContainer.classList.add('error-popup')
+}
+
+const disableErrorPopup = () => {
+    listNamesContainer.classList.remove('error-popup')
 }
 
 const listIDtoIndex = (listID) => {
@@ -114,7 +124,7 @@ const createUniqueID = (name) => {
 
 const createNewTask = (taskName) => {
     if (SELECTED_LIST_ID == null) {
-        alert("Please select a list!")
+        enableErrorPopup()
         return
     }
     let i = 0;
@@ -388,6 +398,13 @@ addTaskButton.addEventListener('click', (e) => {
     createNewTask(taskName)
     addTaskInput.value = ""
     console.log(taskName)
+})
+
+// Disable Error popup
+window.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('error-popup')) {
+        disableErrorPopup()
+    }
 })
 
 // createNewList("Nice")

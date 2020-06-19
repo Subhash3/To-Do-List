@@ -7,6 +7,7 @@
 }
 
 body {
+  position: relative;
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(45deg, #274156, #294C60, #001B2E);
@@ -297,5 +298,54 @@ form input:focus {
   .all-todo-lists .list-of-lists {
     margin-bottom: 10px;
   }
+}
+
+.error-popup {
+  position: relative;
+}
+
+.error-popup::before {
+  --popup-height: 50px;
+  position: absolute;
+  content: 'Please Select a list!';
+  width: 150px;
+  height: var(--popup-height);
+  top: calc(var(--popup-height) * -1 - 10px);
+  left: 50%;
+  -webkit-transform: translateX(-50%) scale(1);
+          transform: translateX(-50%) scale(1);
+  -webkit-transform-origin: bottom center;
+          transform-origin: bottom center;
+  background-color: #e07c63;
+  border-radius: 10px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 17x;
+  font-family: 'Times New Roman', Times, serif;
+  -webkit-transition: -webkit-transform 400ms ease-in-out;
+  transition: -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+}
+
+.error-popup::after {
+  position: absolute;
+  content: '';
+  width: 30px;
+  height: 30px;
+  background-color: #e07c63;
+  top: -7px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -100%) rotate(45deg) scale(1);
+          transform: translate(-50%, -100%) rotate(45deg) scale(1);
+  -webkit-transform-origin: top center;
+          transform-origin: top center;
+  z-index: -1;
+  -webkit-transition: -webkit-transform 400ms ease-in-out;
+  transition: -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
 }
 /*# sourceMappingURL=style.css.map */
