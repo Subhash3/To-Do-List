@@ -297,17 +297,6 @@ form{
     }
 }
 
-@media screen and (max-width: 760px){
-    .all-todo-lists{
-        flex-direction: column;
-
-        .list-of-lists{
-            margin-bottom: 10px;
-        }
-    }
-}
-
-
 .error-popup{
     position: relative;
 
@@ -342,5 +331,27 @@ form{
         transform-origin: top center;
         z-index: -1;
         transition: transform 400ms ease-in-out,
+    }
+}
+
+@media screen and (max-width: 760px){
+    .all-todo-lists{
+        flex-direction: column;
+
+        .list-of-lists{
+            margin-bottom: 10px;
+        }
+
+        .container{
+            width: auto;
+            margin: 10px 0;
+        }
+
+
+        .name{
+            word-wrap: break-word;
+            max-width: 35%;
+            font-size: 15px;
+        }
     }
 }
