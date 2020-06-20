@@ -1,4 +1,5 @@
 var SELECTED_LIST_ID = null
+var editTargetType = null // Could be task or list
 
 var toDoLists = [
     {
@@ -49,6 +50,7 @@ var listObjects = [
 ]
 
 // DOM elements
+const allToDoListElementsContainer = document.querySelector('.all-todo-lists')
 const listNamesContainer = document.querySelector('.list-of-lists')
 
 const listsContainer = document.querySelector('.lists-container')
@@ -62,6 +64,10 @@ const todoListTasksContainer = todoListContainer.querySelector('.tasks_container
 const addTaskFrom = todoListContainer.querySelector('.add_task')
 const addTaskButton = todoListContainer.querySelector('.submit_new_task')
 const addTaskInput = todoListContainer.querySelector('.new_task_name')
+
+const editNameBox = document.querySelector('.edit-name-box')
+const editNameInput = editNameBox.querySelector('input')
+const submitEditName = document.querySelector('.edit-submit-btn')
 
 const clearListTasksContainer = () => {
     listTitle.innerText = "List of Tasks Go here.."
@@ -83,6 +89,16 @@ const enableErrorPopup = () => {
 
 const disableErrorPopup = () => {
     listNamesContainer.classList.remove('error-popup')
+}
+
+const disableClicks = (element) => {
+    element.style.pointerEvents = 'none'
+    element.style.opacity = 0.6
+}
+
+const enableClicks = (element) => {
+    element.style.pointerEvents = 'all'
+    element.style.opacity = 1
 }
 
 const listIDtoIndex = (listID) => {
@@ -159,6 +175,7 @@ const createTaskTemplate = (taskId, taskName, completed) => {
     let editIcon = document.createElement('div')
     editIcon.classList.add('edit')
     editIcon.innerHTML = `<i class="fa fa-pencil"></i>`
+    editIcon.addEventListener('click', editName)
 
     let doneElement = document.createElement('div')
     doneElement.classList.add('done')
@@ -248,9 +265,10 @@ const renderListNames = () => {
         nameElement.classList.add('name')
         nameElement.innerText = list.name
 
-        let eidtIcon = document.createElement('div')
-        eidtIcon.classList.add('edit')
-        eidtIcon.innerHTML = `<i class="fa fa-pencil"></i>`
+        let editIcon = document.createElement('div')
+        editIcon.classList.add('edit')
+        editIcon.innerHTML = `<i class="fa fa-pencil"></i>`
+        editIcon.addEventListener('click', editName)
 
         let deleteIcon = document.createElement('div')
         deleteIcon.classList.add('delete')
@@ -258,7 +276,7 @@ const renderListNames = () => {
         deleteIcon.addEventListener('click', deleteEntireList)
 
         listItem.appendChild(nameElement)
-        listItem.appendChild(eidtIcon)
+        listItem.appendChild(editIcon)
         listItem.appendChild(deleteIcon)
 
         listsContainer.appendChild(listItem)
@@ -368,6 +386,34 @@ const deleteTask = (e) => {
     fadeOutEffect(correspondingTaskElement, renderTasks)
 }
 
+const editName = (e) => {
+    let targetElement = e.target.parentElement.parentElement
+    if (targetElement.classList.contains("task")) {
+        let taskID = targetElement.getAttribute("task-id")
+        editTargetType = {
+            targetType: "task",
+            taskID: taskID
+        }
+
+    }
+    else if (targetElement.classList.contains("list")) {
+        editTargetType = "list"
+        listID = targetElement.id
+        editTargetType = {
+            targetType: "list",
+            listID: listID
+        }
+    }
+
+    let currentName = targetElement.querySelector('.name').innerText
+    editNameInput.value = currentName
+    // console.log(currentName)
+
+    // console.log(editTargetType)
+    disableClicks(allToDoListElementsContainer)
+    editNameBox.classList.add('active')
+}
+
 // Create New List
 addListFrom.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -405,6 +451,34 @@ window.addEventListener('click', (e) => {
     if (!e.target.classList.contains('error-popup')) {
         disableErrorPopup()
     }
+})
+
+// Close edit popup
+submitEditName.addEventListener('click', (e) => {
+    editNameBox.classList.remove('active')
+    enableClicks(allToDoListElementsContainer)
+
+    if (editTargetType.targetType == "list") {
+        let listIndex = editTargetType.listID
+        toDoLists[listIndex - 1].name = editNameInput.value
+    } else if (editTargetType.targetType == "task") {
+        let taskID = editTargetType.taskID
+        let index = selectedListIndex()
+        let listObj = listObjects[index]
+        let taskIndex = 0
+
+        for (let i = 0; i < listObj.taskCount; i++) {
+            if (listObj.tasks[i].id == taskID) {
+                taskIndex = i
+                break
+            }
+        }
+
+        listObjects[index].tasks[taskIndex].name = editNameInput.value
+    }
+
+    renderListNames()
+    renderTasks()
 })
 
 // createNewList("Nice")
