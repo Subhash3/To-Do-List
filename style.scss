@@ -73,6 +73,7 @@ body{
         font-style: italic;
         background-image: linear-gradient(45deg,#274156, #294C60, #001B2E);
         background-clip: text;
+        -webkit-background-clip: text;
         color: transparent;
         word-wrap: wrap;
     }
@@ -102,6 +103,7 @@ body{
         font-style: italic;
         background: linear-gradient(to left, white, rgb(160, 179, 189), #adc3d4);
         background-clip: text;
+        -webkit-background-clip: text;
         color: transparent;
         word-wrap: wrap;
     }
@@ -161,6 +163,7 @@ body{
         font-style: italic;
         background: linear-gradient(to left, white, rgb(160, 179, 189), #adc3d4);
         background-clip: text;
+        -webkit-background-clip: text;
         color: transparent;
     }
 

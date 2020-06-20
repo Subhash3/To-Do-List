@@ -86,6 +86,7 @@ body {
   font-style: italic;
   background-image: linear-gradient(45deg, #274156, #294C60, #001B2E);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
   word-wrap: wrap;
 }
@@ -130,6 +131,7 @@ body {
   background: -webkit-gradient(linear, right top, left top, from(white), color-stop(#a0b3bd), to(#adc3d4));
   background: linear-gradient(to left, white, #a0b3bd, #adc3d4);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
   word-wrap: wrap;
 }
@@ -201,6 +203,7 @@ body {
   background: -webkit-gradient(linear, right top, left top, from(white), color-stop(#a0b3bd), to(#adc3d4));
   background: linear-gradient(to left, white, #a0b3bd, #adc3d4);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 }
 
