@@ -14,6 +14,14 @@ body {
   overflow-x: hidden;
 }
 
+input {
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+}
+
 .name {
   word-wrap: wrap;
   padding-right: 1px;
@@ -338,6 +346,7 @@ form input {
   transition: width 200ms ease-out, padding 200ms ease-in, font-size 200ms ease-in;
   background-color: transparent;
   color: #FBFCFF;
+  outline: none;
 }
 
 form input::-webkit-input-placeholder {

@@ -132,7 +132,8 @@ const highlightSelectedList = () => {
 const createUniqueID = (name) => {
     let dateObj = new Date()
     let milliseconds = dateObj.getTime()
-    name = name.replaceAll(' ', '-')
+    // name = name.replaceAll(' ', '-')
+    name = name.replace(/[ ]/g, "-")
     let id = name + milliseconds
 
     return id
