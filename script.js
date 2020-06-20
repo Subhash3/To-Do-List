@@ -83,6 +83,18 @@ const selectedListIndex = () => {
     }
 }
 
+const listIDtoIndex = (listID) => {
+    // if(listID == SELECTED_LIST_ID){
+    //     return selectedListIndex()
+    // }
+
+    for (let i = 0; i < totalNumberOfLists; i++) {
+        if (toDoLists[i].id == listID) {
+            return i
+        }
+    }
+}
+
 const enableErrorPopup = () => {
     listNamesContainer.classList.add('error-popup')
 }
@@ -99,18 +111,6 @@ const disableClicks = (element) => {
 const enableClicks = (element) => {
     element.style.pointerEvents = 'all'
     element.style.opacity = 1
-}
-
-const listIDtoIndex = (listID) => {
-    // if(listID == SELECTED_LIST_ID){
-    //     return selectedListIndex()
-    // }
-
-    for (let i = 0; i < totalNumberOfLists; i++) {
-        if (toDoLists[i].id == listID) {
-            return i
-        }
-    }
 }
 
 const highlightSelectedList = () => {
@@ -459,8 +459,9 @@ submitEditName.addEventListener('click', (e) => {
     enableClicks(allToDoListElementsContainer)
 
     if (editTargetType.targetType == "list") {
-        let listIndex = editTargetType.listID
-        toDoLists[listIndex - 1].name = editNameInput.value
+        let listID = editTargetType.listID
+        let listIndex = listIDtoIndex(listID)
+        toDoLists[listIndex].name = editNameInput.value
     } else if (editTargetType.targetType == "task") {
         let taskID = editTargetType.taskID
         let index = selectedListIndex()
