@@ -1,3 +1,9 @@
-## A Web Based TODO List 
-* Implemented Using _HTML_, _CSS_, _Javascript_, and _JQuery_.
-> This is still in progress. Any collaborations are highly appreciated.
+## A Web Based TODO List
+
+### Technologies Used
+
+* Html
+* SCSS/SASS
+* JavaScript
+
+It is live [here](https://subhash3.github.io/To-Do-List/)
