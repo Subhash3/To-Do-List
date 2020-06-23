@@ -180,7 +180,10 @@ const createTaskTemplate = (taskId, taskName, completed) => {
 
     let doneElement = document.createElement('div')
     doneElement.classList.add('done')
-    doneElement.innerHTML = `<input type="checkbox" name="complete-box" ${completed}/>`
+    doneElement.innerHTML = `<input type="checkbox" name="complete-box" ${completed ? 'checked' : ''}/>`
+    if (completed) {
+        taskElement.classList.add('completed')
+    }
     doneElement.addEventListener('click', toggleTaskCompleted)
 
 
@@ -221,6 +224,7 @@ const renderTasks = () => {
         let taskElement = createTaskTemplate(task.id, task.name, task.completed)
         todoListTasksContainer.appendChild(taskElement)
     }
+    updateLocalStorage()
 }
 
 const renderListTasks = (e) => {
@@ -283,6 +287,7 @@ const renderListNames = () => {
         listsContainer.appendChild(listItem)
     })
     highlightSelectedList()
+    updateLocalStorage()
 }
 
 const createNewList = (name) => {
@@ -337,6 +342,8 @@ const toggleTaskCompleted = (event) => {
             task.completed = !task.completed
         }
     })
+
+    updateLocalStorage()
 }
 
 const deleteEntireList = (e) => {
@@ -415,6 +422,11 @@ const editName = (e) => {
     editNameBox.classList.add('active')
 }
 
+const updateLocalStorage = () => {
+    localStorage.setItem('toDoLists', JSON.stringify(toDoLists))
+    localStorage.setItem('listObjects', JSON.stringify(listObjects))
+}
+
 // Create New List
 addListFrom.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -483,6 +495,16 @@ submitEditName.addEventListener('click', (e) => {
     renderTasks()
 })
 
+window.addEventListener('load', () => {
+    let toDoListsString = localStorage.getItem('toDoLists')
+    toDoLists = JSON.parse(toDoListsString)
+
+    let listObjectsString = localStorage.getItem('listObjects')
+    listObjects = JSON.parse(listObjectsString)
+
+    totalNumberOfLists = listObjects.length
+    renderListNames()
+})
+
 // createNewList("Nice")
 // createNewList("Not Nice")
-renderListNames()
