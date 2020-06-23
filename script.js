@@ -502,7 +502,13 @@ window.addEventListener('load', () => {
     let listObjectsString = localStorage.getItem('listObjects')
     listObjects = JSON.parse(listObjectsString)
 
+    if (!(toDoLists && listObjects)) {
+        toDoLists = []
+        listObjects = []
+    }
+
     totalNumberOfLists = listObjects.length
+
     renderListNames()
 })
 
